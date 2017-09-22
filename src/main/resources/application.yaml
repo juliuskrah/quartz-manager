@@ -1,0 +1,3 @@
+liquibase:
+  enabled: false
+  
