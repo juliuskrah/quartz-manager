@@ -16,7 +16,7 @@ import org.quartz.Trigger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.juliuskrah.quartz.jobs.EmailJob;
+import com.juliuskrah.quartz.job.EmailJob;
 
 import lombok.Data;
 
@@ -52,27 +52,27 @@ public class JobDescriptor {
 		this.subject = subject;
 		return this;
 	}
-	
+
 	public JobDescriptor setMessageBody(String messageBody) {
 		this.messageBody = messageBody;
 		return this;
 	}
-	
+
 	public JobDescriptor setTo(List<String> to) {
 		this.to = to;
 		return this;
 	}
-	
+
 	public JobDescriptor setCc(List<String> cc) {
 		this.cc = cc;
 		return this;
 	}
-	
+
 	public JobDescriptor setBcc(List<String> bcc) {
 		this.bcc = bcc;
 		return this;
 	}
- 	
+
 	public JobDescriptor setData(final Map<String, Object> data) {
 		this.data = data;
 		return this;
@@ -83,6 +83,11 @@ public class JobDescriptor {
 		return this;
 	}
 
+	/**
+	 * Convenience method for building Triggers of Job
+	 * 
+	 * @return Triggers for this JobDetail
+	 */
 	@JsonIgnore
 	public Set<Trigger> buildTriggers() {
 		Set<Trigger> triggers = new LinkedHashSet<>();
@@ -93,6 +98,11 @@ public class JobDescriptor {
 		return triggers;
 	}
 
+	/**
+	 * Convenience method that builds a JobDetail
+	 * 
+	 * @return the JobDetail built from this descriptor
+	 */
 	public JobDetail buildJobDetail() {
 		// @formatter:off
 		JobDataMap jobDataMap = new JobDataMap(getData());
@@ -107,9 +117,18 @@ public class JobDescriptor {
                 .build();
 		// @formatter:on
 	}
-	
+
+	/**
+	 * Convenience method that builds a descriptor from JobDetail and Trigger(s)
+	 * 
+	 * @param jobDetail
+	 *            the JobDetail instance
+	 * @param triggersOfJob
+	 *            the Trigger(s) to associate with the Job
+	 * @return the JobDescriptor
+	 */
 	@SuppressWarnings("unchecked")
-	public JobDescriptor buildDescriptor(JobDetail jobDetail, List<? extends Trigger> triggersOfJob) {
+	public static JobDescriptor buildDescriptor(JobDetail jobDetail, List<? extends Trigger> triggersOfJob) {
 		// @formatter:off
 		List<TriggerDescriptor> triggerDescriptors = new ArrayList<>();
 
@@ -128,5 +147,5 @@ public class JobDescriptor {
 				.setData(jobDetail.getJobDataMap().getWrappedMap())
 				.setTriggerDescriptors(triggerDescriptors);
 		// @formatter:on
-    }
+	}
 }
