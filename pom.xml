@@ -65,11 +65,9 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- Temporary for Java 9 (Figure how to enable module) -->
 		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.3.0</version>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
 
 		<dependency>
@@ -131,11 +129,11 @@
 				<version>3.7.0</version> <configuration> <compilerArgs> <arg>(dash dash)add-modules</arg><arg>java.xml.bind</arg> 
 				</compilerArgs> <source>1.9</source> <target>1.9</target> <jdkToolchain> 
 				<version>9</version> </jdkToolchain> </configuration> </plugin> -->
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.0.2</version>
-			</plugin>
+			</plugin> -->
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>

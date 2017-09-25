@@ -8,7 +8,10 @@ import org.quartz.JobExecutionException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+// @RequiredArgsConstructor
 public class EmailJob implements Job {
+	// private final MailSender mailSender;
+	// private final SimpleMailMessage mailMessage;
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {

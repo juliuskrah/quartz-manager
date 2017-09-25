@@ -56,10 +56,10 @@ public class TriggerDescriptor {
 	 * @return the Trigger associated with this descriptor
 	 */
 	public Trigger buildTrigger() {
-		if (!isValidExpression(cron))
-			throw new IllegalArgumentException("Provided expression " + cron + " is not a valid cron expression");
 		// @formatter:off
 		if (!isEmpty(cron)) {
+			if (!isValidExpression(cron))
+				throw new IllegalArgumentException("Provided expression " + cron + " is not a valid cron expression");
 			return newTrigger()
 					.withIdentity(buildName(), group)
 					.withSchedule(cronSchedule(cron)

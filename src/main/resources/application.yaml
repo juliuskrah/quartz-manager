@@ -1,3 +1,14 @@
 liquibase:
   enabled: false
+spring:
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    test-connection: true
+    username: ${gmail.username}
+    password: ${gmail.password}
+    
   
