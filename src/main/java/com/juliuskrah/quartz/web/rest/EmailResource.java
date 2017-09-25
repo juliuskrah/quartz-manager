@@ -33,26 +33,32 @@ public class EmailResource {
 
 	@GetMapping(path = "/groups/{group}/jobs/{name}")
 	public ResponseEntity<JobDescriptor> findJob(@PathVariable String group, @PathVariable String name) {
-		return null;
+		return emailService.findJob(group, name)
+				.map(ResponseEntity::ok)
+				.orElse(ResponseEntity.notFound().build());
 	}
 
 	@PutMapping(path = "/groups/{group}/jobs/{name}")
 	public ResponseEntity<Void> updateJob(@PathVariable String group, @PathVariable String name, @RequestBody JobDescriptor descriptor) {
-		return null;
+		emailService.updateJob(group, name, descriptor);
+		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping(path = "/groups/{group}/jobs/{name}")
 	public ResponseEntity<JobDescriptor> deleteJob(@PathVariable String group, @PathVariable String name) {
-		return null;
+		emailService.deleteJob(group, name);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PatchMapping(path = "/groups/{group}/jobs/{name}/pause")
 	public ResponseEntity<JobDescriptor> pauseJob(@PathVariable String group, @PathVariable String name) {
-		return null;
+		emailService.pauseJob(group, name);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PatchMapping(path = "/groups/{group}/jobs/{name}/resume")
 	public ResponseEntity<JobDescriptor> resumeJob(@PathVariable String group, @PathVariable String name) {
-		return null;
+		emailService.resumeJob(group, name);
+		return ResponseEntity.noContent().build();
 	}
 }

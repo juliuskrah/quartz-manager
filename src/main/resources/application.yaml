@@ -10,5 +10,8 @@ spring:
     test-connection: true
     username: ${gmail.username}
     password: ${gmail.password}
+  jpa:
+    hibernate:
+      ddl-auto: none
     
   

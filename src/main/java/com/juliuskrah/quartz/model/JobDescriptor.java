@@ -144,7 +144,7 @@ public class JobDescriptor {
 				.setTo((List<String>)jobDetail.getJobDataMap().get("to"))
 				.setCc((List<String>)jobDetail.getJobDataMap().get("cc"))
 				.setBcc((List<String>)jobDetail.getJobDataMap().get("bcc"))
-				.setData(jobDetail.getJobDataMap().getWrappedMap())
+				// .setData(jobDetail.getJobDataMap().getWrappedMap())
 				.setTriggerDescriptors(triggerDescriptors);
 		// @formatter:on
 	}
