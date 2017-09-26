@@ -45,19 +45,19 @@ public class EmailResource {
 	}
 
 	@DeleteMapping(path = "/groups/{group}/jobs/{name}")
-	public ResponseEntity<JobDescriptor> deleteJob(@PathVariable String group, @PathVariable String name) {
+	public ResponseEntity<Void> deleteJob(@PathVariable String group, @PathVariable String name) {
 		emailService.deleteJob(group, name);
 		return ResponseEntity.noContent().build();
 	}
 
 	@PatchMapping(path = "/groups/{group}/jobs/{name}/pause")
-	public ResponseEntity<JobDescriptor> pauseJob(@PathVariable String group, @PathVariable String name) {
+	public ResponseEntity<Void> pauseJob(@PathVariable String group, @PathVariable String name) {
 		emailService.pauseJob(group, name);
 		return ResponseEntity.noContent().build();
 	}
 
 	@PatchMapping(path = "/groups/{group}/jobs/{name}/resume")
-	public ResponseEntity<JobDescriptor> resumeJob(@PathVariable String group, @PathVariable String name) {
+	public ResponseEntity<Void> resumeJob(@PathVariable String group, @PathVariable String name) {
 		emailService.resumeJob(group, name);
 		return ResponseEntity.noContent().build();
 	}

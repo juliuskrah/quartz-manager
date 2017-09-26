@@ -10,6 +10,8 @@ spring:
     test-connection: true
     username: ${gmail.username}
     password: ${gmail.password}
+    properties:
+      mail.smtp.starttls.enable: true
   jpa:
     hibernate:
       ddl-auto: none
