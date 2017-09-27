@@ -2,6 +2,7 @@ package com.juliuskrah.quartz.job;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -41,6 +42,7 @@ public class EmailJob implements Job {
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(message, false);
 			for(String receipient : to) {
+				helper.setFrom("jk@juliuskrah.com", "Julius from Dynamic Quartz");
 				helper.setTo(receipient);
 				helper.setSubject(subject);
 				helper.setText(messageBody);
@@ -50,7 +52,7 @@ public class EmailJob implements Job {
 					helper.setBcc(bcc.stream().toArray(String[]::new));
 				mailSender.send(message);
 			}
-		} catch (MessagingException e) {
+		} catch (MessagingException | UnsupportedEncodingException e) {
 			log.error("An error occurred: {}", e.getLocalizedMessage());
 		}
 		
