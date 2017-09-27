@@ -1,8 +1,6 @@
 package com.juliuskrah.quartz.web.rest;
 
-import static org.springframework.http.HttpStatus.*;
-
-import javax.validation.Valid;
+import static org.springframework.http.HttpStatus.CREATED;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +25,7 @@ public class EmailResource {
 	private final EmailService emailService;
 
 	@PostMapping(path = "/groups/{group}/jobs")
-	public ResponseEntity<JobDescriptor> createJob(@PathVariable String group, @Valid @RequestBody JobDescriptor descriptor) {
+	public ResponseEntity<JobDescriptor> createJob(@PathVariable String group, @RequestBody JobDescriptor descriptor) {
 		return new ResponseEntity<>(emailService.createJob(group, descriptor), CREATED);
 	}
 

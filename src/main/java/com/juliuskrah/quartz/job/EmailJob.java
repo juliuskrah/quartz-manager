@@ -9,34 +9,36 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.quartz.Job;
+import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Setter
 public class EmailJob implements Job {
 	@Autowired
 	private JavaMailSender mailSender;
-	private String subject;
-	private String messageBody;
-	private List<String> to;
-	private List<String> cc;
-	private List<String> bcc;
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		log.info("Job triggered to send email to {}", to);
-		sendEmail();
+		log.info("Job triggered to send emails");
+		JobDataMap map = context.getMergedJobDataMap();
+		sendEmail(map);
 		log.info("Job completed");
 	}
 	
-	private void sendEmail() {
+	@SuppressWarnings("unchecked")
+	private void sendEmail(JobDataMap map) {
+		String subject 	   = map.getString("subject");
+		String messageBody = map.getString("messageBody");
+		List<String> to    = (List<String>) map.get("to");
+		List<String> cc	   = (List<String>) map.get("cc");
+		List<String> bcc   = (List<String>) map.get("bcc");
+		
 		MimeMessage message = mailSender.createMimeMessage();
 
 		try {
@@ -55,7 +57,5 @@ public class EmailJob implements Job {
 		} catch (MessagingException | UnsupportedEncodingException e) {
 			log.error("An error occurred: {}", e.getLocalizedMessage());
 		}
-		
 	}
-
 }
