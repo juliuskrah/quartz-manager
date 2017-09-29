@@ -7,7 +7,7 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    test-connection: true
+    test-connection: false
     username: ${gmail.username}
     password: ${gmail.password}
     properties:
@@ -15,5 +15,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+
+# Running with Java 9
+# > mvnw clean package -DskipTests
+# > java --add-modules java.xml.bind --illegal-access=warn -jar target\quartz-manager.jar
     
   
