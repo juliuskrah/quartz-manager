@@ -15,6 +15,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+#com:
+#  juliuskrah:
+#    quartz:
+#      config-location: classpath:quartz.properties
 
 # Running with Java 9
 # > mvnw clean package -DskipTests

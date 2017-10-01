@@ -15,6 +15,8 @@
  */
 package com.juliuskrah.quartz;
 
+import javax.sql.DataSource;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.quartz.AutowireCapableBeanJobFactory;
@@ -23,17 +25,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 @SpringBootApplication
+// @EnableConfigurationProperties(QuartzProperties.class)
 public class Application {
+	// @Autowired
+	// private QuartzProperties properties;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
-	
+
 	@Bean
-	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext) {
+	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext, DataSource dataSource) {
 		SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
-		schedulerFactoryBean.setJobFactory(new AutowireCapableBeanJobFactory( 
-				applicationContext.getAutowireCapableBeanFactory())); 
+		// schedulerFactoryBean.setDataSource(dataSource);
+		// schedulerFactoryBean.setConfigLocation(properties.getConfigLocation());
+		schedulerFactoryBean.setJobFactory(new AutowireCapableBeanJobFactory(applicationContext.getAutowireCapableBeanFactory()));
 		schedulerFactoryBean.setApplicationContextSchedulerContextKey("applicationContext");
 		return schedulerFactoryBean;
 	}
