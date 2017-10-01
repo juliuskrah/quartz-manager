@@ -1,0 +1,620 @@
+databaseChangeLog:
+- changeSet:
+    id: 1506785516870-1
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: SCHED_NAME
+            type: VARCHAR(120)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_NAME
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_GROUP
+            type: VARCHAR(200)
+        - column:
+            name: BLOB_DATA
+            type: BLOB
+        tableName: QRTZ_BLOB_TRIGGERS
+- changeSet:
+    id: 1506785516870-2
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: SCHED_NAME
+            type: VARCHAR(120)
+        - column:
+            constraints:
+              nullable: false
+            name: CALENDAR_NAME
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: CALENDAR
+            type: BLOB
+        tableName: QRTZ_CALENDARS
+- changeSet:
+    id: 1506785516870-3
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: SCHED_NAME
+            type: VARCHAR(120)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_NAME
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_GROUP
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: CRON_EXPRESSION
+            type: VARCHAR(120)
+        - column:
+            name: TIME_ZONE_ID
+            type: VARCHAR(80)
+        tableName: QRTZ_CRON_TRIGGERS
+- changeSet:
+    id: 1506785516870-4
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: SCHED_NAME
+            type: VARCHAR(120)
+        - column:
+            constraints:
+              nullable: false
+            name: ENTRY_ID
+            type: VARCHAR(95)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_NAME
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_GROUP
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: INSTANCE_NAME
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: FIRED_TIME
+            type: numeric(13)
+        - column:
+            constraints:
+              nullable: false
+            name: SCHED_TIME
+            type: numeric(13)
+        - column:
+            constraints:
+              nullable: false
+            name: PRIORITY
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: STATE
+            type: VARCHAR(16)
+        - column:
+            name: JOB_NAME
+            type: VARCHAR(200)
+        - column:
+            name: JOB_GROUP
+            type: VARCHAR(200)
+        - column:
+            name: IS_NONCONCURRENT
+            type: BOOLEAN
+        - column:
+            name: REQUESTS_RECOVERY
+            type: BOOLEAN
+        tableName: QRTZ_FIRED_TRIGGERS
+- changeSet:
+    id: 1506785516870-5
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: SCHED_NAME
+            type: VARCHAR(120)
+        - column:
+            constraints:
+              nullable: false
+            name: JOB_NAME
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: JOB_GROUP
+            type: VARCHAR(200)
+        - column:
+            name: DESCRIPTION
+            type: VARCHAR(250)
+        - column:
+            constraints:
+              nullable: false
+            name: JOB_CLASS_NAME
+            type: VARCHAR(250)
+        - column:
+            constraints:
+              nullable: false
+            name: IS_DURABLE
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: IS_NONCONCURRENT
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: IS_UPDATE_DATA
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: REQUESTS_RECOVERY
+            type: BOOLEAN
+        - column:
+            name: JOB_DATA
+            type: BLOB
+        tableName: QRTZ_JOB_DETAILS
+- changeSet:
+    id: 1506785516870-6
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: SCHED_NAME
+            type: VARCHAR(120)
+        - column:
+            constraints:
+              nullable: false
+            name: LOCK_NAME
+            type: VARCHAR(40)
+        tableName: QRTZ_LOCKS
+- changeSet:
+    id: 1506785516870-7
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: SCHED_NAME
+            type: VARCHAR(120)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_GROUP
+            type: VARCHAR(200)
+        tableName: QRTZ_PAUSED_TRIGGER_GRPS
+- changeSet:
+    id: 1506785516870-8
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: SCHED_NAME
+            type: VARCHAR(120)
+        - column:
+            constraints:
+              nullable: false
+            name: INSTANCE_NAME
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: LAST_CHECKIN_TIME
+            type: numeric(13)
+        - column:
+            constraints:
+              nullable: false
+            name: CHECKIN_INTERVAL
+            type: numeric(13)
+        tableName: QRTZ_SCHEDULER_STATE
+- changeSet:
+    id: 1506785516870-9
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: SCHED_NAME
+            type: VARCHAR(120)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_NAME
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_GROUP
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: REPEAT_COUNT
+            type: numeric(7)
+        - column:
+            constraints:
+              nullable: false
+            name: REPEAT_INTERVAL
+            type: numeric(12)
+        - column:
+            constraints:
+              nullable: false
+            name: TIMES_TRIGGERED
+            type: numeric(10)
+        tableName: QRTZ_SIMPLE_TRIGGERS
+- changeSet:
+    id: 1506785516870-10
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: SCHED_NAME
+            type: VARCHAR(120)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_NAME
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_GROUP
+            type: VARCHAR(200)
+        - column:
+            name: STR_PROP_1
+            type: VARCHAR(512)
+        - column:
+            name: STR_PROP_2
+            type: VARCHAR(512)
+        - column:
+            name: STR_PROP_3
+            type: VARCHAR(512)
+        - column:
+            name: INT_PROP_1
+            type: numeric(9)
+        - column:
+            name: INT_PROP_2
+            type: numeric(9)
+        - column:
+            name: LONG_PROP_1
+            type: numeric(13)
+        - column:
+            name: LONG_PROP_2
+            type: numeric(13)
+        - column:
+            name: DEC_PROP_1
+            type: numeric(13, 4)
+        - column:
+            name: DEC_PROP_2
+            type: numeric(13, 4)
+        - column:
+            name: BOOL_PROP_1
+            type: BOOLEAN
+        - column:
+            name: BOOL_PROP_2
+            type: BOOLEAN
+        tableName: QRTZ_SIMPROP_TRIGGERS
+- changeSet:
+    id: 1506785516870-11
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: SCHED_NAME
+            type: VARCHAR(120)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_NAME
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_GROUP
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: JOB_NAME
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            name: JOB_GROUP
+            type: VARCHAR(200)
+        - column:
+            name: DESCRIPTION
+            type: VARCHAR(250)
+        - column:
+            name: NEXT_FIRE_TIME
+            type: numeric(13)
+        - column:
+            name: PREV_FIRE_TIME
+            type: numeric(13)
+        - column:
+            name: PRIORITY
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_STATE
+            type: VARCHAR(16)
+        - column:
+            constraints:
+              nullable: false
+            name: TRIGGER_TYPE
+            type: VARCHAR(8)
+        - column:
+            constraints:
+              nullable: false
+            name: START_TIME
+            type: numeric(13)
+        - column:
+            name: END_TIME
+            type: numeric(13)
+        - column:
+            name: CALENDAR_NAME
+            type: VARCHAR(200)
+        - column:
+            name: MISFIRE_INSTR
+            type: numeric(2)
+        - column:
+            name: JOB_DATA
+            type: BLOB
+        tableName: QRTZ_TRIGGERS
+- changeSet:
+    id: 1506785516870-12
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addPrimaryKey:
+        columnNames: SCHED_NAME, JOB_NAME, JOB_GROUP
+        constraintName: SYS_PK_10100
+        tableName: QRTZ_JOB_DETAILS
+- changeSet:
+    id: 1506785516870-13
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addPrimaryKey:
+        columnNames: SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP
+        constraintName: SYS_PK_10118
+        tableName: QRTZ_TRIGGERS
+- changeSet:
+    id: 1506785516870-14
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addPrimaryKey:
+        columnNames: SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP
+        constraintName: SYS_PK_10137
+        tableName: QRTZ_SIMPLE_TRIGGERS
+- changeSet:
+    id: 1506785516870-15
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addPrimaryKey:
+        columnNames: SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP
+        constraintName: SYS_PK_10152
+        tableName: QRTZ_CRON_TRIGGERS
+- changeSet:
+    id: 1506785516870-16
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addPrimaryKey:
+        columnNames: SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP
+        constraintName: SYS_PK_10164
+        tableName: QRTZ_SIMPROP_TRIGGERS
+- changeSet:
+    id: 1506785516870-17
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addPrimaryKey:
+        columnNames: SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP
+        constraintName: SYS_PK_10175
+        tableName: QRTZ_BLOB_TRIGGERS
+- changeSet:
+    id: 1506785516870-18
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addPrimaryKey:
+        columnNames: SCHED_NAME, CALENDAR_NAME
+        constraintName: SYS_PK_10186
+        tableName: QRTZ_CALENDARS
+- changeSet:
+    id: 1506785516870-19
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addPrimaryKey:
+        columnNames: SCHED_NAME, TRIGGER_GROUP
+        constraintName: SYS_PK_10193
+        tableName: QRTZ_PAUSED_TRIGGER_GRPS
+- changeSet:
+    id: 1506785516870-20
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addPrimaryKey:
+        columnNames: SCHED_NAME, ENTRY_ID
+        constraintName: SYS_PK_10206
+        tableName: QRTZ_FIRED_TRIGGERS
+- changeSet:
+    id: 1506785516870-21
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addPrimaryKey:
+        columnNames: SCHED_NAME, INSTANCE_NAME
+        constraintName: SYS_PK_10221
+        tableName: QRTZ_SCHEDULER_STATE
+- changeSet:
+    id: 1506785516870-22
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addPrimaryKey:
+        columnNames: SCHED_NAME, LOCK_NAME
+        constraintName: SYS_PK_10229
+        tableName: QRTZ_LOCKS
+- changeSet:
+    id: 1506785516870-23
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: SCHED_NAME
+        - column:
+            name: JOB_NAME
+        - column:
+            name: JOB_GROUP
+        indexName: SYS_IDX_SYS_FK_10119_10129
+        tableName: QRTZ_TRIGGERS
+- changeSet:
+    id: 1506785516870-24
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: SCHED_NAME,JOB_NAME,JOB_GROUP
+        baseTableName: QRTZ_TRIGGERS
+        constraintName: SYS_FK_10119
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: SCHED_NAME,JOB_NAME,JOB_GROUP
+        referencedTableName: QRTZ_JOB_DETAILS
+- changeSet:
+    id: 1506785516870-25
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP
+        baseTableName: QRTZ_SIMPLE_TRIGGERS
+        constraintName: SYS_FK_10138
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP
+        referencedTableName: QRTZ_TRIGGERS
+- changeSet:
+    id: 1506785516870-26
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP
+        baseTableName: QRTZ_CRON_TRIGGERS
+        constraintName: SYS_FK_10153
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP
+        referencedTableName: QRTZ_TRIGGERS
+- changeSet:
+    id: 1506785516870-27
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP
+        baseTableName: QRTZ_SIMPROP_TRIGGERS
+        constraintName: SYS_FK_10165
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP
+        referencedTableName: QRTZ_TRIGGERS
+- changeSet:
+    id: 1506785516870-28
+    author: Julius
+    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP
+        baseTableName: QRTZ_BLOB_TRIGGERS
+        constraintName: SYS_FK_10176
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP
+        referencedTableName: QRTZ_TRIGGERS
+
