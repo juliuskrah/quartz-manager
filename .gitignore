@@ -32,3 +32,6 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+### VS Code
+settings.json
