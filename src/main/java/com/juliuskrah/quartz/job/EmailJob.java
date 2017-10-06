@@ -30,6 +30,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
+import com.juliuskrah.quartz.service.AsyncMailSender;
+
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,6 +53,8 @@ import lombok.extern.slf4j.Slf4j;
 public class EmailJob implements Job {
 	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired
+	private AsyncMailSender asyncMailSender;
 	private String subject;
 	private String messageBody;
 	private List<String> to;
@@ -84,7 +88,7 @@ public class EmailJob implements Job {
 					helper.setCc(cc.stream().toArray(String[]::new));
 				if (!isEmpty(bcc))
 					helper.setBcc(bcc.stream().toArray(String[]::new));
-				mailSender.send(message);
+				asyncMailSender.send(message);
 			}
 		} catch (MessagingException | UnsupportedEncodingException e) {
 			log.error("An error occurred: {}", e.getLocalizedMessage());

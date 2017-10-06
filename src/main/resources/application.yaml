@@ -1,5 +1,5 @@
 liquibase:
-  enabled: false
+  enabled: true
 spring:
   jackson:
     serialization:
@@ -15,10 +15,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-#com:
-#  juliuskrah:
-#    quartz:
-#      config-location: classpath:quartz.properties
+com:
+  juliuskrah:
+    quartz:
+      config-location: classpath:quartz.properties
+logging:
+  level:
+    com.juliuskrah.quartz: debug
 
 # Running with Java 9
 # > mvnw clean package -DskipTests
