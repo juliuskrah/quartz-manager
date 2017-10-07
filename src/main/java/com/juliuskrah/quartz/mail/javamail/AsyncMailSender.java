@@ -13,37 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.juliuskrah.quartz.service;
-
-import java.util.concurrent.CompletableFuture;
+package com.juliuskrah.quartz.mail.javamail;
 
 import javax.mail.internet.MimeMessage;
 
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Asynchronous mail sender
+ * 
+ * @author Julius Krah
+ */
 @Slf4j
-@Async
-@Service
-@RequiredArgsConstructor
-public class AsyncMailSender {
-	private final JavaMailSender mailSender;
-
-	public CompletableFuture<String> send(MimeMessage message) {
+public class AsyncMailSender extends JavaMailSenderImpl {
+	
+	@Async
+	@Override
+	public void send(MimeMessage mimeMessage) {
 		log.debug("Starting async mail send");
-		mailSender.send(message);
+		super.send(mimeMessage);
 		log.debug("Async mail sent");
-		return CompletableFuture.completedFuture("Mail sent successfully");
 	}
 
-	public CompletableFuture<String> send(MimeMessage... message) {
+	@Async
+	@Override
+	public void send(MimeMessage... mimeMessages) {
 		log.debug("Starting async mail send");
-		mailSender.send(message);
+		super.send(mimeMessages);
 		log.debug("Async mail sent");
-		return CompletableFuture.completedFuture("Mail sent successfully");
 	}
 }

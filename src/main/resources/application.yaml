@@ -19,6 +19,10 @@ com:
   juliuskrah:
     quartz:
       config-location: classpath:quartz.properties
+      async:
+        core-pool-size: 5
+        max-pool-size: 6
+        queue-capacity: 100
 logging:
   level:
     com.juliuskrah.quartz: debug
