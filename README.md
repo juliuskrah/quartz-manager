@@ -2,7 +2,7 @@
 Dynanic Job Scheduling with Quartz and Spring.
 To understand what is happening in this project read the blog post at:
 
-<http://juliuskrah.com/tutorial/2017/09/26/dynamic-job-scheduling-with-quartz-and-spring/>
+<http://juliuskrah.com/tutorial/2017/10/06/persisting-dynamic-jobs-with-quartz-and-spring/>
 
 for a comprehensive overview.
 
