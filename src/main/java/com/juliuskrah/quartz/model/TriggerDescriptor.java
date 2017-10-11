@@ -43,6 +43,7 @@ import lombok.Data;
 public class TriggerDescriptor {
 	@NotBlank
 	private String name;
+	@NotBlank
 	private String group;
 	private LocalDateTime fireTime;
 	private String cron;
@@ -80,7 +81,7 @@ public class TriggerDescriptor {
 		// @formatter:off
 		if (!isEmpty(cron)) {
 			if (!isValidExpression(cron))
-				throw new IllegalArgumentException("Provided expression " + cron + " is not a valid cron expression");
+				throw new IllegalArgumentException("Provided expression '" + cron + "' is not a valid cron expression");
 			return newTrigger()
 					.withIdentity(buildName(), group)
 					.withSchedule(cronSchedule(cron)

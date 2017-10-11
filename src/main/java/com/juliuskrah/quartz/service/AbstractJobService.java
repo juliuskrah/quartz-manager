@@ -62,6 +62,7 @@ public abstract class AbstractJobService implements JobService {
 								scheduler.getTriggersOfJob(jobKey(name, group))));
 		} catch (SchedulerException e) {
 			log.error("Could not find job with key - {}.{} due to error - {}", group, name, e.getLocalizedMessage());
+			throw new RuntimeException(e.getLocalizedMessage());
 		}
 		// @formatter:on
 		log.warn("Could not find job with key - {}.{}", group, name);
@@ -84,6 +85,7 @@ public abstract class AbstractJobService implements JobService {
 			log.info("Deleted job with key - {}.{}", group, name);
 		} catch (SchedulerException e) {
 			log.error("Could not delete job with key - {}.{} due to error - {}", group, name, e.getLocalizedMessage());
+			throw new RuntimeException(e.getLocalizedMessage());
 		}
 	}
 
@@ -97,6 +99,7 @@ public abstract class AbstractJobService implements JobService {
 			log.info("Paused job with key - {}.{}", group, name);
 		} catch (SchedulerException e) {
 			log.error("Could not pause job with key - {}.{} due to error - {}", group, name, e.getLocalizedMessage());
+			throw new RuntimeException(e.getLocalizedMessage());
 		}
 	}
 
@@ -110,6 +113,7 @@ public abstract class AbstractJobService implements JobService {
 			log.info("Resumed job with key - {}.{}", group, name);
 		} catch (SchedulerException e) {
 			log.error("Could not resume job with key - {}.{} due to error - {}", group, name, e.getLocalizedMessage());
+			throw new RuntimeException(e.getLocalizedMessage());
 		}
 	}
 }

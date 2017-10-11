@@ -74,7 +74,7 @@ public class EmailResource {
 	 * @return
 	 */
 	@PutMapping(path = "/groups/{group}/jobs/{name}")
-	public ResponseEntity<Void> updateJob(@PathVariable String group, @PathVariable String name, @RequestBody JobDescriptor descriptor) {
+	public ResponseEntity<Void> updateJob(@PathVariable String group, @PathVariable String name, @Valid @RequestBody JobDescriptor descriptor) {
 		jobService.updateJob(group, name, descriptor);
 		return ResponseEntity.noContent().build();
 	}

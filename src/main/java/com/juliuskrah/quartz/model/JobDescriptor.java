@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import static org.quartz.JobBuilder.*;
@@ -56,6 +58,7 @@ public class JobDescriptor {
 	private List<String> cc;
 	private List<String> bcc;
 	private Map<String, Object> data = new LinkedHashMap<>();
+	@Valid
 	@JsonProperty("triggers")
 	private List<TriggerDescriptor> triggerDescriptors = new ArrayList<>();
 
@@ -124,16 +127,17 @@ public class JobDescriptor {
 	 * 
 	 * @return the JobDetail built from this descriptor
 	 */
+	@JsonIgnore
 	public JobDetail buildJobDetail() {
 		// @formatter:off
-		JobDataMap jobDataMap = new JobDataMap(getData());
+		JobDataMap jobDataMap = new JobDataMap(data);
 		jobDataMap.put("subject", subject);
 		jobDataMap.put("messageBody", messageBody);
 		jobDataMap.put("to", to);
 		jobDataMap.put("cc", cc);
 		jobDataMap.put("bcc", bcc);
 		return newJob(EmailJob.class)
-                .withIdentity(getName(), getGroup())
+                .withIdentity(name, group)
                 .usingJobData(jobDataMap)
                 .build();
 		// @formatter:on
@@ -160,12 +164,12 @@ public class JobDescriptor {
 		return new JobDescriptor()
 				.setName(jobDetail.getKey().getName())
 				.setGroup(jobDetail.getKey().getGroup())
-				.setSubject(jobDetail.getJobDataMap().getString("subject"))
-				.setMessageBody(jobDetail.getJobDataMap().getString("messageBody"))
-				.setTo((List<String>)jobDetail.getJobDataMap().get("to"))
-				.setCc((List<String>)jobDetail.getJobDataMap().get("cc"))
-				.setBcc((List<String>)jobDetail.getJobDataMap().get("bcc"))
-				// .setData(jobDetail.getJobDataMap().getWrappedMap())
+				.setSubject((String) jobDetail.getJobDataMap().remove("subject"))
+				.setMessageBody((String) jobDetail.getJobDataMap().remove("messageBody"))
+				.setTo((List<String>)jobDetail.getJobDataMap().remove("to"))
+				.setCc((List<String>)jobDetail.getJobDataMap().remove("cc"))
+				.setBcc((List<String>)jobDetail.getJobDataMap().remove("bcc"))
+				.setData(jobDetail.getJobDataMap().getWrappedMap())
 				.setTriggerDescriptors(triggerDescriptors);
 		// @formatter:on
 	}
