@@ -17,6 +17,8 @@ package com.juliuskrah.quartz.web.rest;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
+import java.util.Set;
+
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -52,7 +54,28 @@ public class EmailResource {
 	public ResponseEntity<JobDescriptor> createJob(@PathVariable String group, @Valid @RequestBody JobDescriptor descriptor) {
 		return new ResponseEntity<>(jobService.createJob(group, descriptor), CREATED);
 	}
-
+	
+	/**
+	 * GET /api/v1.0/groups/:group/jobs
+	 * 
+	 * @param group
+	 * @return
+	 */
+	@GetMapping(path = "/groups/{group}/jobs")
+	public ResponseEntity<Set<JobDescriptor>> findGroupJobs(@PathVariable String group) {
+		return ResponseEntity.ok(jobService.findGroupJobs(group));
+	}
+	
+	/**
+	 * GET /api/v1.0/jobs
+	 * 
+	 * @return
+	 */
+	@GetMapping(path = "/jobs")
+	public ResponseEntity<Set<JobDescriptor>> findJobs() {
+		return ResponseEntity.ok(jobService.findJobs());
+	}
+	
 	/**
 	 * GET /api/v1.0/groups/:group/jobs/:name
 	 * 

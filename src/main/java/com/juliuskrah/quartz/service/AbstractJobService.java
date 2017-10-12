@@ -16,11 +16,16 @@
 package com.juliuskrah.quartz.service;
 
 import static org.quartz.JobKey.jobKey;
+import static org.quartz.impl.matchers.GroupMatcher.anyJobGroup;
+import static org.quartz.impl.matchers.GroupMatcher.jobGroupEquals;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +51,49 @@ public abstract class AbstractJobService implements JobService {
 	 */
 	@Override
 	public abstract JobDescriptor createJob(String group, JobDescriptor descriptor);
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Set<JobDescriptor> findJobs(){
+		Set<JobDescriptor> descriptors = new HashSet<>();
+		 try {
+	            Set<JobKey> keys = scheduler.getJobKeys(anyJobGroup());
+	            for(JobKey key : keys) {
+	            	JobDetail jobDetail = scheduler.getJobDetail(key);
+	            	descriptors.add(
+	            			JobDescriptor.buildDescriptor(jobDetail, 
+	            					scheduler.getTriggersOfJob(key)));
+	            }
+	        } catch (SchedulerException e) {
+	        	log.error("Could not find any jobs due to error - {}", e.getLocalizedMessage(), e);
+				throw new RuntimeException(e.getLocalizedMessage());
+	        }
+		return descriptors;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Set<JobDescriptor> findGroupJobs(String group){
+		Set<JobDescriptor> descriptors = new HashSet<>();
+		 try {
+	            Set<JobKey> keys = scheduler.getJobKeys(jobGroupEquals(group));
+	            for(JobKey key : keys) {
+	            	JobDetail jobDetail = scheduler.getJobDetail(key);
+	            	descriptors.add(
+	            			JobDescriptor.buildDescriptor(jobDetail, 
+	            					scheduler.getTriggersOfJob(key)));
+	            }
+	        } catch (SchedulerException e) {
+	        	log.error("Could not find any jobs due to error - {}", e.getLocalizedMessage(), e);
+				throw new RuntimeException(e.getLocalizedMessage());
+	        }
+		return descriptors;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */

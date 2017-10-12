@@ -16,6 +16,7 @@
 package com.juliuskrah.quartz.service;
 
 import java.util.Optional;
+import java.util.Set;
 
 import com.juliuskrah.quartz.model.JobDescriptor;
 
@@ -38,10 +39,27 @@ public interface JobService {
 	 * @param descriptor
 	 *            the payload containing the Job and its associated Trigger(s).
 	 *            The name and group uniquely identifies the job.
-	 * @return JobDescriptor this contains the JobDetail and Triggers of the
+	 * @return JobDescriptor <br/> this contains the JobDetail and Triggers of the
 	 *         newly created job
 	 */
 	JobDescriptor createJob(String group, JobDescriptor descriptor);
+	
+	/**
+	 * Searches for all Jobs in the Scheduler
+	 * 
+	 * @return Set of JobDescriptor <br/> this contains the JobDetail and Triggers of the
+	 *         newly created job
+	 */
+	Set<JobDescriptor> findJobs();
+	
+	/**
+	 * Searches for all Jobs in the Scheduler
+	 * @param group the group to specify
+	 * 
+	 * @return Set of JobDescriptor <br/> this contains the JobDetail and Triggers of the
+	 *         newly created job
+	 */
+	Set<JobDescriptor> findGroupJobs(String group);
 
 	/**
 	 * Searches for a Job identified by the given {@code JobKey}

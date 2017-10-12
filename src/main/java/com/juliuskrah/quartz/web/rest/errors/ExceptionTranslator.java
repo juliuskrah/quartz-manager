@@ -2,6 +2,7 @@ package com.juliuskrah.quartz.web.rest.errors;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -71,6 +73,18 @@ public class ExceptionTranslator {
 		return dto;
 	}
 	
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorVO> processMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
+		ErrorVO dto = ImmutableErrorVO.builder()
+				.message("405: Method Not Allowed")
+				.description(ex.getMessage())
+				.build();
+        return ResponseEntity
+        		.status(METHOD_NOT_ALLOWED)
+        		.header("allow", ex.getSupportedMethods())
+        		.body(dto);
+    }
+	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorVO> processException(Exception ex) throws Exception {
 	    if (log.isDebugEnabled()) {
@@ -91,5 +105,4 @@ public class ExceptionTranslator {
 				.build();
 	    return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(dto);
 	  }
-
 }
