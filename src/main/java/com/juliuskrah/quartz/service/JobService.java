@@ -15,10 +15,8 @@
  */
 package com.juliuskrah.quartz.service;
 
-import java.util.Optional;
-import java.util.Set;
-
 import com.juliuskrah.quartz.model.JobDescriptor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -43,7 +41,7 @@ public interface JobService {
 	 * @return JobDescriptor <br/> this contains the JobDetail and Triggers of the
 	 *         newly created job
 	 */
-	JobDescriptor createJob(String group, JobDescriptor descriptor);
+	void createJob(String group, JobDescriptor descriptor);
 	
 	/**
 	 * Searches for all Jobs in the Scheduler
@@ -51,7 +49,7 @@ public interface JobService {
 	 * @return Set of JobDescriptor <br/> this contains the JobDetail and Triggers of the
 	 *         newly created job
 	 */
-	Set<JobDescriptor> findJobs();
+	Flux<JobDescriptor> findJobs();
 	
 	/**
 	 * Searches for all Jobs in the Scheduler
@@ -60,7 +58,7 @@ public interface JobService {
 	 * @return Set of JobDescriptor <br/> this contains the JobDetail and Triggers of the
 	 *         newly created job
 	 */
-	Set<JobDescriptor> findGroupJobs(String group);
+	Flux<JobDescriptor> findGroupJobs(String group);
 
 	/**
 	 * Searches for a Job identified by the given {@code JobKey}

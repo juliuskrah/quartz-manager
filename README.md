@@ -1,5 +1,42 @@
-# Quartz Manager
-Dynanic Job Scheduling with Quartz and Spring.
+# Quartz Manager (Spring WebFlux)
+## Annotation Model
+This branch rewrites the entire Spring with Quartz project using Spring 5's
+WebFlux.  
+In this branch I use the `Annotated Controllers ` similar to Spring MVC
+
+```java
+@RestController
+@RequestMapping("/api/v1.0")
+public class EmailResource {
+    ...
+    
+    /**
+     * GET /api/v1.0/jobs
+     *
+     * @return
+     */
+    @GetMapping(path = "/jobs")
+    public Flux<JobDescriptor> findJobs() {
+        return jobService.findJobs();
+    }
+
+    /**
+     * GET /api/v1.0/groups/:group/jobs/:name
+     *
+     * @param group
+     * @param name
+     * @return
+     */
+    @GetMapping(path = "/groups/{group}/jobs/{name}")
+    public Mono<ResponseEntity<JobDescriptor>> findJob(@PathVariable String group, @PathVariable String name) {
+        return jobService.findJob(group, name)
+                .map(ResponseEntity::ok)    // If job is found return 200
+                .defaultIfEmpty(ResponseEntity.notFound().build()); // Return 404 if job is not found
+    }
+}
+
+...
+```
 To understand what is happening in this project read the blog post at:
 
 <http://juliuskrah.com/tutorial/2017/10/06/persisting-dynamic-jobs-with-quartz-and-spring/>
@@ -7,6 +44,10 @@ To understand what is happening in this project read the blog post at:
 for a comprehensive overview.
 
 ## Quick Start
+Clone this repository
+```$xslt
+> git clone -b v3.x https://github.com/juliuskrah/quartz-manager.git
+```
 
 ```bash
 > mvnw clean spring-boot:run
@@ -37,6 +78,18 @@ Content-Type: `application/json`
 
 **VIEW**  
 Method      : `GET: /api/v1.0/groups/:group/jobs/:name`  
+Status      : `200: Ok`  or `404: Not Found`  
+Body        : NULL  
+Accept      : `application/json`
+
+**VIEW (By Group)**  
+Method      : `GET: /api/v1.0/groups/:group/jobs/`  
+Status      : `200: Ok`  
+Body        : NULL  
+Accept      : `application/json`
+
+**VIEW (All)**  
+Method      : `GET: /api/v1.0/jobs/`  
 Status      : `200: Ok`  
 Body        : NULL  
 Accept      : `application/json`

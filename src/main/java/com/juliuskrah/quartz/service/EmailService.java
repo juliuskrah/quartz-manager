@@ -53,7 +53,7 @@ public class EmailService extends AbstractJobService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public JobDescriptor createJob(String group, JobDescriptor descriptor) {
+	public void createJob(String group, JobDescriptor descriptor) {
 		String name = descriptor.getName();
 		try {
 			if (scheduler.checkExists(jobKey(name, group)))
@@ -68,7 +68,6 @@ public class EmailService extends AbstractJobService {
 			log.error("Could not save job with key - {}.{} due to error - {}", group, name, e.getLocalizedMessage());
 			throw new RuntimeException(e.getLocalizedMessage());
 		}
-		return descriptor;
 	}
 
 	/**

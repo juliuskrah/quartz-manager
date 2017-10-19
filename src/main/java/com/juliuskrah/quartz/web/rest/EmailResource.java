@@ -18,18 +18,17 @@ package com.juliuskrah.quartz.web.rest;
 import com.juliuskrah.quartz.model.JobDescriptor;
 import com.juliuskrah.quartz.service.JobService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Set;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.web.reactive.function.BodyInserters.fromObject;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @RequestMapping("/api/v1.0")
@@ -45,7 +44,7 @@ public class EmailResource {
 	 * @return
 	 */
 	@PostMapping(path = "/groups/{group}/jobs")
-	public ResponseEntity<JobDescriptor> createJob(
+	public ResponseEntity<Void> createJob(
 	        @PathVariable String group, @Valid @RequestBody JobDescriptor descriptor, UriComponentsBuilder builder) {
         URI location = builder.path("/{job}").buildAndExpand(descriptor.getName()).toUri();
         jobService.createJob(group, descriptor);
@@ -59,8 +58,8 @@ public class EmailResource {
 	 * @return
 	 */
 	@GetMapping(path = "/groups/{group}/jobs")
-	public ResponseEntity<Set<JobDescriptor>> findGroupJobs(@PathVariable String group) {
-		return ResponseEntity.ok(jobService.findGroupJobs(group));
+	public Flux<JobDescriptor>  findGroupJobs(@PathVariable String group) {
+		return jobService.findGroupJobs(group);
 	}
 
 	/**
@@ -69,8 +68,8 @@ public class EmailResource {
 	 * @return
 	 */
 	@GetMapping(path = "/jobs")
-	public ResponseEntity<Set<JobDescriptor>> findJobs() {
-		return ResponseEntity.ok(jobService.findJobs());
+	public Flux<JobDescriptor> findJobs() {
+		return jobService.findJobs();
 	}
 
 	/**
@@ -81,12 +80,10 @@ public class EmailResource {
 	 * @return
 	 */
 	@GetMapping(path = "/groups/{group}/jobs/{name}")
-	public Mono<ServerResponse> findJob(@PathVariable String group, @PathVariable String name) {
+	public Mono<ResponseEntity<JobDescriptor>> findJob(@PathVariable String group, @PathVariable String name) {
 		return jobService.findJob(group, name)
-                .flatMap(job -> ServerResponse.ok()
-                        .contentType(APPLICATION_JSON)
-                        .body(fromObject(job)))
-                .switchIfEmpty(ServerResponse.notFound().build());
+                .map(ResponseEntity::ok)    // If job is found return 200
+                .defaultIfEmpty(ResponseEntity.notFound().build()); // Return 404 if job is not found
 	}
 
 	/**
@@ -97,10 +94,10 @@ public class EmailResource {
 	 * @param descriptor
 	 * @return
 	 */
+    @ResponseStatus(NO_CONTENT)
 	@PutMapping(path = "/groups/{group}/jobs/{name}")
-	public ResponseEntity<Void> updateJob(@PathVariable String group, @PathVariable String name, @Valid @RequestBody JobDescriptor descriptor) {
+	public void updateJob(@PathVariable String group, @PathVariable String name, @Valid @RequestBody JobDescriptor descriptor) {
 		jobService.updateJob(group, name, descriptor);
-		return ResponseEntity.noContent().build();
 	}
 
 	/**
@@ -110,10 +107,10 @@ public class EmailResource {
 	 * @param name
 	 * @return
 	 */
+    @ResponseStatus(NO_CONTENT)
 	@DeleteMapping(path = "/groups/{group}/jobs/{name}")
-	public ResponseEntity<Void> deleteJob(@PathVariable String group, @PathVariable String name) {
+	public void deleteJob(@PathVariable String group, @PathVariable String name) {
 		jobService.deleteJob(group, name);
-		return ResponseEntity.noContent().build();
 	}
 
 	/**
@@ -123,10 +120,10 @@ public class EmailResource {
 	 * @param name
 	 * @return
 	 */
+    @ResponseStatus(NO_CONTENT)
 	@PatchMapping(path = "/groups/{group}/jobs/{name}/pause")
-	public ResponseEntity<Void> pauseJob(@PathVariable String group, @PathVariable String name) {
+	public void pauseJob(@PathVariable String group, @PathVariable String name) {
 		jobService.pauseJob(group, name);
-		return ResponseEntity.noContent().build();
 	}
 
 	/**
@@ -136,9 +133,9 @@ public class EmailResource {
 	 * @param name
 	 * @return
 	 */
+    @ResponseStatus(NO_CONTENT)
 	@PatchMapping(path = "/groups/{group}/jobs/{name}/resume")
-	public ResponseEntity<Void> resumeJob(@PathVariable String group, @PathVariable String name) {
+	public void resumeJob(@PathVariable String group, @PathVariable String name) {
 		jobService.resumeJob(group, name);
-		return ResponseEntity.noContent().build();
 	}
 }
