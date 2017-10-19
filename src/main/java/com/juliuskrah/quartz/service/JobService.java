@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.juliuskrah.quartz.model.JobDescriptor;
+import reactor.core.publisher.Mono;
 
 /**
  * An object that defines the contract for defining dynamic jobs
@@ -70,7 +71,7 @@ public interface JobService {
 	 *            the name of the dynamically scheduled job
 	 * @return the jobDescriptor if found or an empty Optional
 	 */
-	Optional<JobDescriptor> findJob(String group, String name);
+	Mono<JobDescriptor> findJob(String group, String name);
 
 	/**
 	 * Updates the Job that matches the given {@code JobKey} with new

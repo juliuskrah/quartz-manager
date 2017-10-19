@@ -20,7 +20,7 @@ import static org.quartz.impl.matchers.GroupMatcher.anyJobGroup;
 import static org.quartz.impl.matchers.GroupMatcher.jobGroupEquals;
 
 import java.util.HashSet;
-import java.util.Objects;
+import static java.util.Objects.*;
 import java.util.Optional;
 import java.util.Set;
 
@@ -34,6 +34,8 @@ import com.juliuskrah.quartz.model.JobDescriptor;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 /**
  * Abstract implementation of JobService
@@ -45,6 +47,18 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public abstract class AbstractJobService implements JobService {
 	protected final Scheduler scheduler;
+
+	private Mono<JobDescriptor> descriptor(JobDetail detail) {
+	    try {
+            return Mono.just(
+                    JobDescriptor.buildDescriptor(detail,
+                    scheduler.getTriggersOfJob(detail.getKey()))
+            );
+        } catch (SchedulerException e) {
+            log.error("Could not find job with key - {} due to error - {}", detail.getKey(), e.getLocalizedMessage());
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
+    }
 
 	/**
 	 * {@inheritDoc}
@@ -99,21 +113,20 @@ public abstract class AbstractJobService implements JobService {
 	 */
 	@Transactional(readOnly = true)
 	@Override
-	public Optional<JobDescriptor> findJob(String group, String name) {
+	public Mono<JobDescriptor> findJob(String group, String name) {
 		// @formatter:off
 		try {
 			JobDetail jobDetail = scheduler.getJobDetail(jobKey(name, group));
-			if(Objects.nonNull(jobDetail))
-				return Optional.of(
-						JobDescriptor.buildDescriptor(jobDetail, 
-								scheduler.getTriggersOfJob(jobKey(name, group))));
+            if(nonNull(jobDetail))
+                return Mono.just(jobDetail)
+                    .flatMap(this::descriptor);
+			log.warn("Could not find job with key - {}.{}", group, name);
 		} catch (SchedulerException e) {
-			log.error("Could not find job with key - {}.{} due to error - {}", group, name, e.getLocalizedMessage());
+			log.error("Could not find job with key - {}.{} due to error", group, name, e);
 			throw new RuntimeException(e.getLocalizedMessage());
 		}
 		// @formatter:on
-		log.warn("Could not find job with key - {}.{}", group, name);
-		return Optional.empty();
+        return Mono.empty();
 	}
 
 	/**

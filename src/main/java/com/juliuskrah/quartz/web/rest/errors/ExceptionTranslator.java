@@ -24,6 +24,7 @@ import org.springframework.web.bind.support.WebExchangeBindException;
 @Slf4j
 @RestControllerAdvice
 public class ExceptionTranslator {
+    // UnsupportedMediaTypeStatusException
 
 	@ExceptionHandler(IllegalStateException.class)
 	@ResponseStatus(BAD_REQUEST)

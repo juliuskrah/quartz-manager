@@ -15,27 +15,21 @@
  */
 package com.juliuskrah.quartz.web.rest;
 
-import static org.springframework.http.HttpStatus.CREATED;
-
-import java.util.Set;
-
-import javax.validation.Valid;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.juliuskrah.quartz.model.JobDescriptor;
 import com.juliuskrah.quartz.service.JobService;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Mono;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.Set;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.web.reactive.function.BodyInserters.fromObject;
 
 @RestController
 @RequestMapping("/api/v1.0")
@@ -45,19 +39,22 @@ public class EmailResource {
 
 	/**
 	 * POST /api/v1.0/groups/:group/jobs
-	 * 
+	 *
 	 * @param group
 	 * @param descriptor
 	 * @return
 	 */
 	@PostMapping(path = "/groups/{group}/jobs")
-	public ResponseEntity<JobDescriptor> createJob(@PathVariable String group, @Valid @RequestBody JobDescriptor descriptor) {
-		return new ResponseEntity<>(jobService.createJob(group, descriptor), CREATED);
+	public ResponseEntity<JobDescriptor> createJob(
+	        @PathVariable String group, @Valid @RequestBody JobDescriptor descriptor, UriComponentsBuilder builder) {
+        URI location = builder.path("/{job}").buildAndExpand(descriptor.getName()).toUri();
+        jobService.createJob(group, descriptor);
+		return ResponseEntity.created(location).build();
 	}
-	
+
 	/**
 	 * GET /api/v1.0/groups/:group/jobs
-	 * 
+	 *
 	 * @param group
 	 * @return
 	 */
@@ -65,32 +62,36 @@ public class EmailResource {
 	public ResponseEntity<Set<JobDescriptor>> findGroupJobs(@PathVariable String group) {
 		return ResponseEntity.ok(jobService.findGroupJobs(group));
 	}
-	
+
 	/**
 	 * GET /api/v1.0/jobs
-	 * 
+	 *
 	 * @return
 	 */
 	@GetMapping(path = "/jobs")
 	public ResponseEntity<Set<JobDescriptor>> findJobs() {
 		return ResponseEntity.ok(jobService.findJobs());
 	}
-	
+
 	/**
 	 * GET /api/v1.0/groups/:group/jobs/:name
-	 * 
+	 *
 	 * @param group
 	 * @param name
 	 * @return
 	 */
 	@GetMapping(path = "/groups/{group}/jobs/{name}")
-	public ResponseEntity<JobDescriptor> findJob(@PathVariable String group, @PathVariable String name) {
-		return jobService.findJob(group, name).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+	public Mono<ServerResponse> findJob(@PathVariable String group, @PathVariable String name) {
+		return jobService.findJob(group, name)
+                .flatMap(job -> ServerResponse.ok()
+                        .contentType(APPLICATION_JSON)
+                        .body(fromObject(job)))
+                .switchIfEmpty(ServerResponse.notFound().build());
 	}
 
 	/**
 	 * PUT /api/v1.0/groups/:group/jobs/:name
-	 * 
+	 *
 	 * @param group
 	 * @param name
 	 * @param descriptor
@@ -104,7 +105,7 @@ public class EmailResource {
 
 	/**
 	 * DELETE /api/v1.0/groups/:group/jobs/:name
-	 * 
+	 *
 	 * @param group
 	 * @param name
 	 * @return
@@ -117,7 +118,7 @@ public class EmailResource {
 
 	/**
 	 * PATCH /api/v1.0/groups/:group/jobs/:name/pause
-	 * 
+	 *
 	 * @param group
 	 * @param name
 	 * @return
@@ -130,7 +131,7 @@ public class EmailResource {
 
 	/**
 	 * PATCH /api/v1.0/groups/:group/jobs/:name/resume
-	 * 
+	 *
 	 * @param group
 	 * @param name
 	 * @return
