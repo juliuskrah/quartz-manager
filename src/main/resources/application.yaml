@@ -1,6 +1,6 @@
-liquibase:
-  enabled: true
 spring:
+  liquibase:
+    enabled: true
   jackson:
     serialization:
       write-dates-as-timestamps: false
@@ -12,13 +12,18 @@ spring:
     password: ${gmail.password}
     properties:
       mail.smtp.starttls.enable: true
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+    properties:
+      org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.HSQLDBDelegate
   jpa:
     hibernate:
       ddl-auto: none
 com:
   juliuskrah:
     quartz:
-      config-location: classpath:quartz.properties
       async:
         core-pool-size: 5
         max-pool-size: 6

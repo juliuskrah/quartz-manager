@@ -23,9 +23,10 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import static org.quartz.JobBuilder.*;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -54,9 +55,9 @@ public class JobDescriptor {
 	@NotEmpty
 	private String messageBody;
 	@NotEmpty
-	private List<String> to;
-	private List<String> cc;
-	private List<String> bcc;
+	private List<@Email String> to;
+	private List<@Email String> cc;
+	private List<@Email String> bcc;
 	private Map<String, Object> data = new LinkedHashMap<>();
 	@Valid
 	@JsonProperty("triggers")

@@ -1,7 +1,6 @@
 package com.juliuskrah.quartz.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.core.io.Resource;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +9,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class QuartzProperties {
-	private Resource configLocation;
 	private final Async async = new Async();
 
 	@Setter

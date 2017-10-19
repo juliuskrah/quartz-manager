@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.support.WebExchangeBindException;
 
 @Slf4j
 @RestControllerAdvice
@@ -44,9 +45,9 @@ public class ExceptionTranslator {
 		return dto;
 	}
 	
-	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ExceptionHandler(WebExchangeBindException.class)
     @ResponseStatus(BAD_REQUEST)
-    public ErrorVO processValidationError(MethodArgumentNotValidException ex) {
+    public ErrorVO processValidationError(WebExchangeBindException ex) {
         BindingResult result = ex.getBindingResult();
         List<FieldError> fieldErrors = result.getFieldErrors();
         ImmutableErrorVO.Builder builder = ImmutableErrorVO.builder()
@@ -57,7 +58,7 @@ public class ExceptionTranslator {
             builder.addFieldErrors(ImmutableFieldErrorVO.builder()
             		.objectName(fieldError.getObjectName())
             		.field(fieldError.getField())
-            		.message(fieldError.getCode())
+            		.message(fieldError.getDefaultMessage())
             		.build());
         }
         return builder.build();
@@ -72,18 +73,6 @@ public class ExceptionTranslator {
 				.build();
 		return dto;
 	}
-	
-	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ErrorVO> processMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
-		ErrorVO dto = ImmutableErrorVO.builder()
-				.message("405: Method Not Allowed")
-				.description(ex.getMessage())
-				.build();
-        return ResponseEntity
-        		.status(METHOD_NOT_ALLOWED)
-        		.header("allow", ex.getSupportedMethods())
-        		.body(dto);
-    }
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorVO> processException(Exception ex) throws Exception {
