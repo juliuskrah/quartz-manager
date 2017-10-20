@@ -33,23 +33,22 @@ public class EmailResource {
                 .map(ResponseEntity::ok)    // If job is found return 200
                 .defaultIfEmpty(ResponseEntity.notFound().build()); // Return 404 if job is not found
     }
+    ...
 }
-
-...
 ```
 To understand what is happening in this project read the blog post at:
 
-<http://juliuskrah.com/tutorial/2017/10/06/persisting-dynamic-jobs-with-quartz-and-spring/>
+<http://juliuskrah.com/tutorial/2017/10/11/error-handling-in-a-rest-service-with-quartz/>
 
 for a comprehensive overview.
 
 ## Quick Start
-Clone this repository
-```$xslt
-> git clone -b v3.x https://github.com/juliuskrah/quartz-manager.git
-```
+*Prerequisite:* Java 9
 
+Clone this repository
 ```bash
+> git clone -b v3.x https://github.com/juliuskrah/quartz-manager.git
+> cd quartz-manager
 > mvnw clean spring-boot:run
 ```
 
@@ -69,7 +68,7 @@ Body        :
        {
          "name": "manager",
          "group": "email",
-         "fireTime": "2017-10-02T22:00:00.000"
+         "cron": "0 0 0 ? JAN MON 2018"
        }
     ]
 }

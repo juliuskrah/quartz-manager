@@ -102,7 +102,7 @@ public class TriggerDescriptor {
 					.build();
 		}
 		// @formatter:on
-		throw new IllegalStateException("unsupported trigger descriptor " + this);
+		throw new IllegalStateException("Specify either one of 'cron' or 'fireTime'");
 	}
 
 	/**
