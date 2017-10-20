@@ -6,6 +6,9 @@ To understand what is happening in this project read the blog post at:
 
 for a comprehensive overview.
 
+# Spring WebFlux
+Checkout this [branch](https://github.com/juliuskrah/quartz-manager/tree/v3.x) for a reactive version of the source
+
 ## Quick Start
 
 ```bash
