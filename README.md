@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/juliuskrah/quartz-manager.svg?branch=v2.x)](https://travis-ci.org/juliuskrah/quartz-manager)
 # Quartz Manager
 Dynanic Job Scheduling with Quartz and Spring.
 To understand what is happening in this project read the blog post at:
