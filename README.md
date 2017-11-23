@@ -2,9 +2,20 @@
 Dynanic Job Scheduling with Quartz and Spring.
 To understand what is happening in this project read the blog post at:
 
-<http://juliuskrah.com/tutorial/2017/10/06/persisting-dynamic-jobs-with-quartz-and-spring/>
+<http://juliuskrah.com/tutorial/2017/10/11/error-handling-in-a-rest-service-with-quartz/>
 
 for a comprehensive overview.
+
+## Branches
+
+Branch                                                              | Notes
+--------------------------------------------------------------------|------------------
+[master](https://github.com/juliuskrah/quartz-manager/tree/master)  | Implementation without database      
+[v1.x](https://github.com/juliuskrah/quartz-manager/tree/v1.x)      | Implementation with database
+[v2.x](https://github.com/juliuskrah/quartz-manager/tree/v2.x)      | Implementation with error handling
+[v3.x](https://github.com/juliuskrah/quartz-manager/tree/v3.x)      | Implementation with Spring WebFlux
+v4.x                                                                | Implementation with Functional Spring WebFlux functional 
+
 
 ## Quick Start
 
