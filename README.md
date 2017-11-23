@@ -1,4 +1,15 @@
 # Quartz Manager (Spring WebFlux)
+
+## Branches
+
+Branch                                                              | Notes
+--------------------------------------------------------------------|------------------
+[master](https://github.com/juliuskrah/quartz-manager/tree/master)  | Implementation without database      
+[v1.x](https://github.com/juliuskrah/quartz-manager/tree/v1.x)      | Implementation with database
+[v2.x](https://github.com/juliuskrah/quartz-manager/tree/v2.x)      | Implementation with error handling
+[v3.x](https://github.com/juliuskrah/quartz-manager/tree/v3.x)      | Implementation with Spring WebFlux
+v4.x                                                                | Implementation with Functional Spring WebFlux functional 
+
 ## Annotation Model
 This branch rewrites the entire Spring with Quartz project using Spring 5's
 WebFlux.  
