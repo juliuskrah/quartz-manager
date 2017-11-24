@@ -39,25 +39,27 @@ public interface JobService {
 	 * @param descriptor
 	 *            the payload containing the Job and its associated Trigger(s).
 	 *            The name and group uniquely identifies the job.
-	 * @return JobDescriptor <br/> this contains the JobDetail and Triggers of the
-	 *         newly created job
+	 * @return JobDescriptor <br/>
+	 *         this contains the JobDetail and Triggers of the newly created job
 	 */
 	JobDescriptor createJob(String group, JobDescriptor descriptor);
-	
+
 	/**
 	 * Searches for all Jobs in the Scheduler
 	 * 
-	 * @return Set of JobDescriptor <br/> this contains the JobDetail and Triggers of the
-	 *         newly created job
+	 * @return Set of JobDescriptor <br/>
+	 *         this contains the JobDetail and Triggers of the newly created job
 	 */
 	Set<JobDescriptor> findJobs();
-	
+
 	/**
 	 * Searches for all Jobs in the Scheduler
-	 * @param group the group to specify
 	 * 
-	 * @return Set of JobDescriptor <br/> this contains the JobDetail and Triggers of the
-	 *         newly created job
+	 * @param group
+	 *            the group to specify
+	 * 
+	 * @return Set of JobDescriptor <br/>
+	 *         this contains the JobDetail and Triggers of the newly created job
 	 */
 	Set<JobDescriptor> findGroupJobs(String group);
 
@@ -94,6 +96,11 @@ public interface JobService {
 	 *            the name of the dynamically scheduled job
 	 */
 	void deleteJob(String group, String name);
+
+	/**
+	 * Deletes all jobs stored in the {@code Scheduler}
+	 */
+	void deleteAllJobs();
 
 	/**
 	 * Pauses the Job identified by the given {@code JobKey}

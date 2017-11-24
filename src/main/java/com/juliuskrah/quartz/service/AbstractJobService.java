@@ -19,6 +19,7 @@ import static org.quartz.JobKey.jobKey;
 import static org.quartz.impl.matchers.GroupMatcher.anyJobGroup;
 import static org.quartz.impl.matchers.GroupMatcher.jobGroupEquals;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
@@ -51,49 +52,45 @@ public abstract class AbstractJobService implements JobService {
 	 */
 	@Override
 	public abstract JobDescriptor createJob(String group, JobDescriptor descriptor);
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Set<JobDescriptor> findJobs(){
+	public Set<JobDescriptor> findJobs() {
 		Set<JobDescriptor> descriptors = new HashSet<>();
-		 try {
-	            Set<JobKey> keys = scheduler.getJobKeys(anyJobGroup());
-	            for(JobKey key : keys) {
-	            	JobDetail jobDetail = scheduler.getJobDetail(key);
-	            	descriptors.add(
-	            			JobDescriptor.buildDescriptor(jobDetail, 
-	            					scheduler.getTriggersOfJob(key)));
-	            }
-	        } catch (SchedulerException e) {
-	        	log.error("Could not find any jobs due to error - {}", e.getLocalizedMessage(), e);
-				throw new RuntimeException(e.getLocalizedMessage());
-	        }
+		try {
+			Set<JobKey> keys = scheduler.getJobKeys(anyJobGroup());
+			for (JobKey key : keys) {
+				JobDetail jobDetail = scheduler.getJobDetail(key);
+				descriptors.add(JobDescriptor.buildDescriptor(jobDetail, scheduler.getTriggersOfJob(key)));
+			}
+		} catch (SchedulerException e) {
+			log.error("Could not find any jobs due to error - {}", e.getLocalizedMessage(), e);
+			throw new RuntimeException(e.getLocalizedMessage());
+		}
 		return descriptors;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Set<JobDescriptor> findGroupJobs(String group){
+	public Set<JobDescriptor> findGroupJobs(String group) {
 		Set<JobDescriptor> descriptors = new HashSet<>();
-		 try {
-	            Set<JobKey> keys = scheduler.getJobKeys(jobGroupEquals(group));
-	            for(JobKey key : keys) {
-	            	JobDetail jobDetail = scheduler.getJobDetail(key);
-	            	descriptors.add(
-	            			JobDescriptor.buildDescriptor(jobDetail, 
-	            					scheduler.getTriggersOfJob(key)));
-	            }
-	        } catch (SchedulerException e) {
-	        	log.error("Could not find any jobs due to error - {}", e.getLocalizedMessage(), e);
-				throw new RuntimeException(e.getLocalizedMessage());
-	        }
+		try {
+			Set<JobKey> keys = scheduler.getJobKeys(jobGroupEquals(group));
+			for (JobKey key : keys) {
+				JobDetail jobDetail = scheduler.getJobDetail(key);
+				descriptors.add(JobDescriptor.buildDescriptor(jobDetail, scheduler.getTriggersOfJob(key)));
+			}
+		} catch (SchedulerException e) {
+			log.error("Could not find any jobs due to error - {}", e.getLocalizedMessage(), e);
+			throw new RuntimeException(e.getLocalizedMessage());
+		}
 		return descriptors;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -132,6 +129,21 @@ public abstract class AbstractJobService implements JobService {
 			log.info("Deleted job with key - {}.{}", group, name);
 		} catch (SchedulerException e) {
 			log.error("Could not delete job with key - {}.{} due to error - {}", group, name, e.getLocalizedMessage());
+			throw new RuntimeException(e.getLocalizedMessage());
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void deleteAllJobs() {
+		try {
+			Set<JobKey> keys = scheduler.getJobKeys(anyJobGroup());
+			scheduler.deleteJobs(new ArrayList<JobKey>(keys));
+			log.info("Deleted all jobs");
+		} catch (SchedulerException e) {
+			log.error("Could not delete all jobs with key due to error - {}", e.getLocalizedMessage());
 			throw new RuntimeException(e.getLocalizedMessage());
 		}
 	}

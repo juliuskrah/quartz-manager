@@ -15,8 +15,7 @@
  */
 package com.juliuskrah.quartz.web.rest;
 
-import static org.springframework.http.HttpStatus.CREATED;
-
+import java.net.URI;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -31,6 +30,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.juliuskrah.quartz.model.JobDescriptor;
 import com.juliuskrah.quartz.service.JobService;
@@ -51,8 +51,11 @@ public class EmailResource {
 	 * @return
 	 */
 	@PostMapping(path = "/groups/{group}/jobs")
-	public ResponseEntity<JobDescriptor> createJob(@PathVariable String group, @Valid @RequestBody JobDescriptor descriptor) {
-		return new ResponseEntity<>(jobService.createJob(group, descriptor), CREATED);
+	public ResponseEntity<Void> createJob(@PathVariable String group, @Valid @RequestBody JobDescriptor descriptor) {
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+			.path("/{job}").buildAndExpand(descriptor.getName()).toUri();
+		jobService.createJob(group, descriptor);
+		return ResponseEntity.created(location).build();
 	}
 	
 	/**

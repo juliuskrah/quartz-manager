@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.7.RELEASE</version>
+		<version>1.5.8.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -103,33 +103,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>${junit.jupiter.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- Only required to run tests in an IDE that bundles an older version -->
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-launcher</artifactId>
-			<version>${junit.platform.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- Only required to run tests in an IDE that bundles an older version -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>${junit.jupiter.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- Only required to run tests in an IDE that bundles an older version -->
-		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
-			<version>${junit.vintage.version}</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -138,36 +111,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<!-- <configuration> <jvmArguments>add-modules java.xml.bind</jvmArguments> 
-					</configuration> -->
-			</plugin>
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> 
-				<configuration> <compilerArgs> <arg>add-modules</arg> <arg>java.xml.bind,java.xml.ws.annotation</arg> 
-				</compilerArgs> <jdkToolchain> <version>9</version> </jdkToolchain> </configuration> 
-				</plugin> -->
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<includes>
-						<include>**/Test*.java</include>
-						<include>**/*Test.java</include>
-						<include>**/*Tests.java</include>
-						<include>**/*TestCase.java</include>
-					</includes>
-					<properties>
-						<!-- <includeTags>fast</includeTags> -->
-						<excludeTags>slow</excludeTags>
-						<!-- <configurationParameters> junit.jupiter.conditions.deactivate 
-							= * </configurationParameters> -->
-					</properties>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.junit.platform</groupId>
-						<artifactId>junit-platform-surefire-provider</artifactId>
-						<version>${junit.platform.version}</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
