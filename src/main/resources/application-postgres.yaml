@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql:quartz
+    hikari:
+      username: postgres
+      password: root
+com:
+  juliuskrah:
+    quartz:
+      config-location: classpath:quartz-postgres.properties
+    
+
+    
+  

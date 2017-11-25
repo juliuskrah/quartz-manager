@@ -50,19 +50,53 @@ public class ITEmailResourceTest {
 	public void init() {
 		// Delete all Jobs created by the previous test
 		emailService.deleteAllJobs();
-		TriggerDescriptor trigger = new TriggerDescriptor().setName("test_name").setGroup("test_group").setFireTime(now().plusHours(1));
 
-		jobDetail = new JobDescriptor().setName("test_name").setTo(asList("person@example.com", "anaother_person@example.com"))
-				.setCc(asList("person_cc@example.com")).setBcc(asList("person_bcc@example.com", "anaother_person_bcc@example.com"))
-				.setMessageBody("Testing a message body").setSubject("Test subject").setTriggerDescriptors(asList(trigger));
+		// @formatter:off
+		TriggerDescriptor trigger = new TriggerDescriptor()
+				.setName("test_name")
+				.setGroup("test_group")
+				.setFireTime(now().plusHours(1));
 
-		TriggerDescriptor trigger1 = new TriggerDescriptor().setName("test_name1").setGroup("test_group").setFireTime(now().plusHours(1));
+		jobDetail = new JobDescriptor()
+				.setName("test_name")
+				.setTo(asList("person@example.com", "anaother_person@example.com"))
+				.setCc(asList("person_cc@example.com"))
+				.setBcc(asList("person_bcc@example.com", "anaother_person_bcc@example.com"))
+				.setMessageBody("Testing a message body")
+				.setSubject("Test subject")
+				.setTriggerDescriptors(asList(trigger));
 
-		JobDescriptor jobDetail1 = new JobDescriptor().setName("test_name1")
-				.setTo(asList("person1@example.com", "anaother_person1@example.com")).setCc(asList("person1_cc@example.com"))
-				.setBcc(asList("person1_bcc@example.com", "anaother_person1_bcc@example.com")).setMessageBody("Testing a message body1")
-				.setSubject("Test subject1").setTriggerDescriptors(asList(trigger1));
+		TriggerDescriptor trigger1 = new TriggerDescriptor()
+				.setName("test_name1")
+				.setGroup("test_group")
+				.setFireTime(now().plusMinutes(1));
+
+		JobDescriptor jobDetail1 = new JobDescriptor()
+				.setName("test_name1")
+				.setTo(asList("person1@example.com", "anaother_person1@example.com"))
+				.setCc(asList("person1_cc@example.com"))
+				.setBcc(asList("person1_bcc@example.com", "anaother_person1_bcc@example.com"))
+				.setMessageBody("Testing a message body1")
+				.setSubject("Test subject1")
+				.setTriggerDescriptors(asList(trigger1));
+		
+		TriggerDescriptor trigger2 = new TriggerDescriptor()
+				.setName("test_name2")
+				.setGroup("test_group1")
+				.setFireTime(now().plusMinutes(1));
+
+		JobDescriptor jobDetail2 = new JobDescriptor()
+				.setName("test_name2")
+				.setTo(asList("person2@example.com", "anaother_person2@example.com"))
+				.setCc(asList("person2_cc@example.com"))
+				.setBcc(asList("person2_bcc@example.com", "anaother_person2_bcc@example.com"))
+				.setMessageBody("Testing a message body2")
+				.setSubject("Test subject2")
+				.setTriggerDescriptors(asList(trigger2));
+		
 		emailService.createJob("test_group", jobDetail1);
+		emailService.createJob("test_group2", jobDetail2);
+		// @formatter:on
 	}
 
 	@Test
@@ -84,5 +118,18 @@ public class ITEmailResourceTest {
 		assertThat(response.getStatusCode()).isEqualTo(OK);
 		assertThat(response.getBody()).hasOnlyElementsOfType(JobDescriptor.class);
 		assertThat(response.getBody()).hasSize(1);
+	}
+	
+	@Test
+	public void testFindJobs() {
+		RequestEntity<Void> request = RequestEntity.get(this.builder().path("/jobs").buildAndExpand("test_group").toUri())
+				.build();
+		ParameterizedTypeReference<Set<JobDescriptor>> jobDetails = new ParameterizedTypeReference<Set<JobDescriptor>>() {
+		};
+
+		ResponseEntity<Set<JobDescriptor>> response = restTemplate.exchange(request, jobDetails);
+		assertThat(response.getStatusCode()).isEqualTo(OK);
+		assertThat(response.getBody()).hasOnlyElementsOfType(JobDescriptor.class);
+		assertThat(response.getBody()).hasSize(2);
 	}
 }

@@ -1,8 +1,15 @@
 databaseChangeLog:
+- property:
+    name: blob
+    value: blob
+    dbms: mysql,h2,oracle,hsqldb
+- property:
+    name: blob
+    value: bytea
+    dbms: postgresql
 - changeSet:
     id: 1506785516870-1
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - createTable:
         columns:
@@ -23,12 +30,11 @@ databaseChangeLog:
             type: VARCHAR(200)
         - column:
             name: BLOB_DATA
-            type: BLOB
+            type: ${blob}
         tableName: QRTZ_BLOB_TRIGGERS
 - changeSet:
     id: 1506785516870-2
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - createTable:
         columns:
@@ -46,12 +52,11 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: CALENDAR
-            type: BLOB
+            type: ${blob}
         tableName: QRTZ_CALENDARS
 - changeSet:
     id: 1506785516870-3
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - createTable:
         columns:
@@ -82,7 +87,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-4
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - createTable:
         columns:
@@ -115,12 +119,12 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: FIRED_TIME
-            type: numeric(13)
+            type: BIGINT
         - column:
             constraints:
               nullable: false
             name: SCHED_TIME
-            type: numeric(13)
+            type: BIGINT
         - column:
             constraints:
               nullable: false
@@ -147,7 +151,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-5
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - createTable:
         columns:
@@ -196,12 +199,11 @@ databaseChangeLog:
             type: BOOLEAN
         - column:
             name: JOB_DATA
-            type: BLOB
+            type: ${blob}
         tableName: QRTZ_JOB_DETAILS
 - changeSet:
     id: 1506785516870-6
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - createTable:
         columns:
@@ -219,7 +221,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-7
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - createTable:
         columns:
@@ -237,7 +238,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-8
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - createTable:
         columns:
@@ -255,17 +255,16 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: LAST_CHECKIN_TIME
-            type: numeric(13)
+            type: BIGINT
         - column:
             constraints:
               nullable: false
             name: CHECKIN_INTERVAL
-            type: numeric(13)
+            type: BIGINT
         tableName: QRTZ_SCHEDULER_STATE
 - changeSet:
     id: 1506785516870-9
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - createTable:
         columns:
@@ -303,7 +302,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-10
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - createTable:
         columns:
@@ -339,10 +337,10 @@ databaseChangeLog:
             type: numeric(9)
         - column:
             name: LONG_PROP_1
-            type: numeric(13)
+            type: BIGINT
         - column:
             name: LONG_PROP_2
-            type: numeric(13)
+            type: BIGINT
         - column:
             name: DEC_PROP_1
             type: numeric(13, 4)
@@ -359,7 +357,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-11
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - createTable:
         columns:
@@ -393,10 +390,10 @@ databaseChangeLog:
             type: VARCHAR(250)
         - column:
             name: NEXT_FIRE_TIME
-            type: numeric(13)
+            type: BIGINT
         - column:
             name: PREV_FIRE_TIME
-            type: numeric(13)
+            type: BIGINT
         - column:
             name: PRIORITY
             type: INT
@@ -414,24 +411,23 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: START_TIME
-            type: numeric(13)
+            type: BIGINT
         - column:
             name: END_TIME
-            type: numeric(13)
+            type: BIGINT
         - column:
             name: CALENDAR_NAME
             type: VARCHAR(200)
         - column:
             name: MISFIRE_INSTR
-            type: numeric(2)
+            type: TINYINT
         - column:
             name: JOB_DATA
-            type: BLOB
+            type: ${blob}
         tableName: QRTZ_TRIGGERS
 - changeSet:
     id: 1506785516870-12
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - addPrimaryKey:
         columnNames: SCHED_NAME, JOB_NAME, JOB_GROUP
@@ -440,7 +436,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-13
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - addPrimaryKey:
         columnNames: SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP
@@ -449,7 +444,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-14
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - addPrimaryKey:
         columnNames: SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP
@@ -458,7 +452,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-15
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - addPrimaryKey:
         columnNames: SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP
@@ -467,7 +460,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-16
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - addPrimaryKey:
         columnNames: SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP
@@ -476,7 +468,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-17
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - addPrimaryKey:
         columnNames: SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP
@@ -485,7 +476,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-18
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - addPrimaryKey:
         columnNames: SCHED_NAME, CALENDAR_NAME
@@ -494,7 +484,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-19
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - addPrimaryKey:
         columnNames: SCHED_NAME, TRIGGER_GROUP
@@ -503,7 +492,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-20
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - addPrimaryKey:
         columnNames: SCHED_NAME, ENTRY_ID
@@ -512,7 +500,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-21
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - addPrimaryKey:
         columnNames: SCHED_NAME, INSTANCE_NAME
@@ -521,7 +508,6 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-22
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
     changes:
     - addPrimaryKey:
         columnNames: SCHED_NAME, LOCK_NAME
@@ -530,7 +516,7 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-23
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
     changes:
     - createIndex:
         columns:
@@ -545,7 +531,7 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-24
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: SCHED_NAME,JOB_NAME,JOB_GROUP
@@ -560,7 +546,7 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-25
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP
@@ -575,7 +561,7 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-26
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP
@@ -590,7 +576,7 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-27
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP
@@ -605,7 +591,7 @@ databaseChangeLog:
 - changeSet:
     id: 1506785516870-28
     author: Julius
-    objectQuotingStrategy: QUOTE_ALL_OBJECTS
+    objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP
