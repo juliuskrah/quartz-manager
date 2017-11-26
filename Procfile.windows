@@ -1,0 +1,1 @@
+web: java -jar target\quartz-manager.jar --spring.profiles.active=postgres

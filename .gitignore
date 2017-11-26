@@ -36,3 +36,6 @@ nbdist/
 
 ### VS Code
 .vscode/
+
+### Heroku
+.env
