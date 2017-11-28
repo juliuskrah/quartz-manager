@@ -1,0 +1,30 @@
+{
+    "name": "Quartz Manager",
+    "description": "Quartz manager REST service",
+    "repository": "https://github.com/juliuskrah/quartz-manager",
+    "logo": "https://i.imgur.com/VAC3yUE.jpg",
+    "success_url": "/api/v1.0/jobs",
+    "keywords": [
+        "REST", 
+        "Spring-Boot", 
+        "Liquibase", 
+        "Quartz"
+    ],
+    "env": {
+        "MAIL_USERNAME": {
+            "description": "SMTP Username. e.g. 'username@example.com'."
+        },
+        "MAIL_PASSWORD": {
+            "description": "SMTP password."
+        },
+        "MAIL_HOST": {
+            "description": "SMTP Host. e.g. 'smtp.gmail.com'."
+        },
+        "MAIL_PORT": {
+            "description": "SMTP port.",
+            "value": "587"
+        }
+    }
+
+}
+
