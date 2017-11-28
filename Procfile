@@ -1,1 +1,1 @@
-web: java -jar target/*.jar --spring.profiles.active=postgres --server.port=$PORT
+web: java -jar target/*.jar --spring.profiles.active=heroku --server.port=$PORT
