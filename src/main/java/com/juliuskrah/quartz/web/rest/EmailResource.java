@@ -21,6 +21,7 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -38,6 +39,7 @@ import com.juliuskrah.quartz.service.JobService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/v1.0")
 @RequiredArgsConstructor
 public class EmailResource {
@@ -52,23 +54,23 @@ public class EmailResource {
 	 */
 	@PostMapping(path = "/groups/{group}/jobs")
 	public ResponseEntity<Void> createJob(@PathVariable String group, @Valid @RequestBody JobDescriptor descriptor) {
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-			.path("/{job}").buildAndExpand(descriptor.getName()).toUri();
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{job}").buildAndExpand(descriptor.getName()).toUri();
 		jobService.createJob(group, descriptor);
 		return ResponseEntity.created(location).build();
 	}
-	
+
 	/**
 	 * GET /api/v1.0/groups/:group/jobs
 	 * 
 	 * @param group
 	 * @return
 	 */
+	// @CrossOrigin(origins = "*")
 	@GetMapping(path = "/groups/{group}/jobs")
 	public ResponseEntity<Set<JobDescriptor>> findGroupJobs(@PathVariable String group) {
 		return ResponseEntity.ok(jobService.findGroupJobs(group));
 	}
-	
+
 	/**
 	 * GET /api/v1.0/jobs
 	 * 
@@ -78,7 +80,7 @@ public class EmailResource {
 	public ResponseEntity<Set<JobDescriptor>> findJobs() {
 		return ResponseEntity.ok(jobService.findJobs());
 	}
-	
+
 	/**
 	 * GET /api/v1.0/groups/:group/jobs/:name
 	 * 
@@ -100,7 +102,8 @@ public class EmailResource {
 	 * @return
 	 */
 	@PutMapping(path = "/groups/{group}/jobs/{name}")
-	public ResponseEntity<Void> updateJob(@PathVariable String group, @PathVariable String name, @Valid @RequestBody JobDescriptor descriptor) {
+	public ResponseEntity<Void> updateJob(@PathVariable String group, @PathVariable String name,
+			@Valid @RequestBody JobDescriptor descriptor) {
 		jobService.updateJob(group, name, descriptor);
 		return ResponseEntity.noContent().build();
 	}
