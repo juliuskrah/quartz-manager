@@ -27,7 +27,8 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.TimeZone;
 
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
+
 import org.quartz.JobDataMap;
 import org.quartz.Trigger;
 

@@ -1,9 +1,9 @@
-liquibase:
-  enabled: true
 spring:
   jackson:
     serialization:
       write-dates-as-timestamps: false
+  liquibase:
+    enabled: true
   mail:
     host: ${MAIL_HOST}
     port: ${MAIL_PORT}
@@ -13,12 +13,18 @@ spring:
     properties:
       mail.smtp.starttls.enable: true
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: none
+  quartz:
+    jdbc:
+      initialize-schema: never
+    job-store-type: jdbc
+    properties:
+      org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.HSQLDBDelegate
 com:
   juliuskrah:
     quartz:
-      config-location: classpath:quartz.properties
       async:
         core-pool-size: 5
         max-pool-size: 6

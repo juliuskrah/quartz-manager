@@ -4,10 +4,9 @@ spring:
     hikari:
       username: postgres
       password: root
-com:
-  juliuskrah:
-    quartz:
-      config-location: classpath:quartz-postgres.properties
+  quartz:
+    properties:
+      org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
     
 
     

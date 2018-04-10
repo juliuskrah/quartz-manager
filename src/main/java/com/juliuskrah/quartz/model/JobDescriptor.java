@@ -23,9 +23,9 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import static org.quartz.JobBuilder.*;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
