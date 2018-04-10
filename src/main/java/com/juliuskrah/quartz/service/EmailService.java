@@ -16,6 +16,7 @@
 package com.juliuskrah.quartz.service;
 
 import static org.quartz.JobKey.jobKey;
+import static org.quartz.impl.matchers.KeyMatcher.keyEquals;
 
 import java.util.Objects;
 import java.util.Set;
@@ -30,6 +31,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.juliuskrah.quartz.job.EmailJobListener;
 import com.juliuskrah.quartz.model.JobDescriptor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,9 +46,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional
 public class EmailService extends AbstractJobService {
+	private final EmailJobListener jobListener;
 
-	public EmailService(Scheduler scheduler) {
+	public EmailService(Scheduler scheduler, EmailJobListener jobListener) {
 		super(scheduler);
+		this.jobListener = jobListener;
 	}
 
 	/**
@@ -64,6 +68,7 @@ public class EmailService extends AbstractJobService {
 			log.info("About to save job with key - {}", jobDetail.getKey());
 			scheduler.scheduleJob(jobDetail, triggersForJob, false);
 			log.info("Job with key - {} saved sucessfully", jobDetail.getKey());
+			scheduler.getListenerManager().addJobListener(jobListener, keyEquals(jobDetail.getKey()) );
 		} catch (SchedulerException e) {
 			log.error("Could not save job with key - {}.{} due to error - {}", group, name, e.getLocalizedMessage());
 			throw new RuntimeException(e.getLocalizedMessage());
