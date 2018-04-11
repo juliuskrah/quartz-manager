@@ -71,7 +71,12 @@ public class EmailService {
 				jobDataMap.put("bcc", descriptor.getBcc());
 				JobBuilder jb = oldJobDetail.getJobBuilder();
 				JobDetail newJobDetail = jb.usingJobData(jobDataMap).storeDurably().build();
-				scheduler.addJob(newJobDetail, true);
+				Set<Trigger> triggersForJob = descriptor.buildTriggers();
+				List<Trigger> triggers = (List<Trigger>) scheduler.getTriggersOfJob(jobKey(name, group));
+				for(Trigger trigger : triggers) {
+					scheduler.unscheduleJob(trigger.getKey());
+				}
+				scheduler.scheduleJob(newJobDetail, triggersForJob, true);
 				log.info("Updated job with key - {}", newJobDetail.getKey());
 				return;
 			}
