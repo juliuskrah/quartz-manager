@@ -8,8 +8,8 @@ spring:
     host: smtp.gmail.com
     port: 587
     test-connection: false
-    username: ${gmail.username}
-    password: ${gmail.password}
+    username: ${gmail.username:juliuskrah@example.com}
+    password: ${gmail.password:123456789}
     properties:
       mail.smtp.starttls.enable: true
   quartz:
@@ -18,9 +18,6 @@ spring:
       initialize-schema: never
     properties:
       org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.HSQLDBDelegate
-  jpa:
-    hibernate:
-      ddl-auto: none
 com:
   juliuskrah:
     quartz:
@@ -31,9 +28,5 @@ com:
 logging:
   level:
     com.juliuskrah.quartz: debug
-
-# Running with Java 9
-# > mvnw clean package -DskipTests
-# > java --add-modules java.xml.bind --illegal-access=warn -jar target\quartz-manager.jar
     
   

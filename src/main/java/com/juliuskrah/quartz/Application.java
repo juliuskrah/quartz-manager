@@ -15,11 +15,21 @@
  */
 package com.juliuskrah.quartz;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.web.reactive.function.server.RequestPredicates.DELETE;
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.PATCH;
+import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
+import static org.springframework.web.reactive.function.server.RequestPredicates.PUT;
+import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
+import static org.springframework.web.reactive.function.server.RequestPredicates.contentType;
+import static org.springframework.web.reactive.function.server.RequestPredicates.path;
+import static org.springframework.web.reactive.function.server.RouterFunctions.nest;
+import static org.springframework.web.reactive.function.server.RouterFunctions.route;
+
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
-
-import javax.sql.DataSource;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
@@ -27,16 +37,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.juliuskrah.quartz.autoconfigure.QuartzProperties;
+import com.juliuskrah.quartz.handler.EmailHandler;
 import com.juliuskrah.quartz.mail.javamail.AsyncMailSender;
 
 import io.github.jhipster.async.ExceptionHandlingAsyncTaskExecutor;
@@ -87,6 +98,11 @@ public class Application implements AsyncConfigurer {
 		return new ExceptionHandlingAsyncTaskExecutor(executor);
 	}
 
+	@Override
+	public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+		return new SimpleAsyncUncaughtExceptionHandler();
+	}
+
 	@Bean
 	public JavaMailSender mailSender() {
 		JavaMailSenderImpl sender = new AsyncMailSender();
@@ -94,8 +110,28 @@ public class Application implements AsyncConfigurer {
 		return sender;
 	}
 
-	@Override
-	public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-		return new SimpleAsyncUncaughtExceptionHandler();
+	@Bean
+	public RouterFunction<ServerResponse> emailRouter(EmailHandler emailHandler) {
+		// @formatter:off
+		return nest(path("/api/v1.0"),
+				// POST /api/v1.0/groups/:group/jobs
+				route(POST("/groups/{group}/jobs").and(contentType(APPLICATION_JSON)), emailHandler::createJob)
+				// GET /api/v1.0/groups/:group/jobs
+				.andRoute(GET("/groups/{group}/jobs").and(accept(APPLICATION_JSON)), emailHandler::findGroupJobs)	
+				// GET /api/v1.0/jobs
+				.andRoute(GET("/jobs").and(accept(APPLICATION_JSON)), emailHandler::findJobs)
+				// GET /api/v1.0/groups/:group/jobs/:name
+				.andRoute(GET("/groups/{group}/jobs/{name}").and(accept(APPLICATION_JSON)), emailHandler::findJob)
+				// PUT /api/v1.0/groups/:group/jobs/:name
+				.andRoute(PUT("/groups/{group}/jobs/{name}").and(contentType(APPLICATION_JSON)), emailHandler::updateJob)
+				// DELETE /api/v1.0/groups/:group/jobs/:name
+				.andRoute(DELETE("/groups/{group}/jobs/{name}"), emailHandler::deleteJob)
+				// PATCH /api/v1.0/groups/:group/jobs/:name/pause
+				.andRoute(PATCH("/groups/{group}/jobs/{name}/pause"), emailHandler::pauseJob)
+				// PATCH /api/v1.0/groups/:group/jobs/:name/resume
+				.andRoute(PATCH("/groups/{group}/jobs/{name}/resume"), emailHandler::resumeJob)
+		);
+		// @formatter:on
+
 	}
 }
