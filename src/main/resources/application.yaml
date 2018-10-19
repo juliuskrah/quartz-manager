@@ -5,11 +5,11 @@ spring:
   liquibase:
     enabled: true
   mail:
-    host: ${MAIL_HOST}
-    port: ${MAIL_PORT}
-    test-connection: true
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:22}
+    test-connection: false
+    username: ${MAIL_USERNAME:admin}
+    password: ${MAIL_PASSWORD:admin}
     properties:
       mail.smtp.starttls.enable: true
   jpa:
@@ -33,8 +33,3 @@ logging:
   level:
     com.juliuskrah.quartz: debug
 
-# Running with Java 9
-# > mvnw clean package -DskipTests
-# > java --add-modules java.xml.bind --illegal-access=warn -jar target\quartz-manager.jar
-    
-  
