@@ -14,12 +14,22 @@ Branch                                                              | Notes
 [v1.x](https://github.com/juliuskrah/quartz-manager/tree/v1.x)      | Implementation with database
 [v2.x](https://github.com/juliuskrah/quartz-manager/tree/v2.x)      | Implementation with error handling
 [v3.x](https://github.com/juliuskrah/quartz-manager/tree/v3.x)      | Implementation with Spring WebFlux
-v4.x                                                                | Implementation with Functional Spring WebFlux functional 
+[v4.x ](https://github.com/juliuskrah/quartz-manager/tree/v4.x)     | Implementation with Functional Spring WebFlux functional 
 
 ## Quick Start
 
+After executing the following command, the application will start on `localhost:8080`
+
+- Using maven:
+
 ```bash
 > mvnw clean spring-boot:run
+```
+
+- Using docker:
+
+```bash
+> docker run -p 8080:8080 juliuskrah/quartz-manager
 ```
 
 ## Features

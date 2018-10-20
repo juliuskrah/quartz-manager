@@ -5,11 +5,11 @@ spring:
     serialization:
       write-dates-as-timestamps: false
   mail:
-    host: smtp.gmail.com
-    port: 587
+    host: localhost
+    port: 25
     test-connection: false
-    username: ${gmail.username}
-    password: ${gmail.password}
+    username: ${gmail.username:admin}
+    password: ${gmail.password:admin}
     properties:
       mail.smtp.starttls.enable: true
   jpa:

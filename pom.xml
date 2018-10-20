@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.juliuskrah</groupId>
 	<artifactId>quartz-manager</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>quartz-manager</name>
@@ -15,7 +15,8 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.7.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath />
+		<!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
@@ -132,23 +133,28 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<!-- <configuration>
-					<jvmArguments>add-modules java.xml.bind</jvmArguments>
-				</configuration> -->
 			</plugin>
-			<!-- <plugin> 
-				<groupId>org.apache.maven.plugins</groupId> 
-				<artifactId>maven-compiler-plugin</artifactId> 
-				<configuration> 
-					<compilerArgs> 
-						<arg>add-modules</arg>
-						<arg>java.xml.bind,java.xml.ws.annotation</arg>
-					</compilerArgs> 
-					<jdkToolchain> 
-						<version>9</version> 
-					</jdkToolchain> 
-				</configuration> 
-			</plugin> -->
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>0.9.11</version>
+				<configuration>
+					<to>
+						<image>juliuskrah/quartz-manager</image>
+						<tags>
+							<tag>1.x</tag>
+						</tags>
+					</to>
+					<container>
+						<environment>
+							<SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>
+						</environment>
+						<ports>
+							<port>8080</port>
+						</ports>
+					</container>
+				</configuration>
+			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
@@ -159,10 +165,7 @@
 						<include>**/*TestCase.java</include>
 					</includes>
 					<properties>
-						<!-- <includeTags>fast</includeTags> -->
 						<excludeTags>slow</excludeTags>
-						<!-- <configurationParameters> junit.jupiter.conditions.deactivate 
-							= * </configurationParameters> -->
 					</properties>
 				</configuration>
 				<dependencies>
