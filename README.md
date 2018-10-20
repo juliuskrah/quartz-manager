@@ -21,8 +21,18 @@ Checkout this [branch](https://github.com/juliuskrah/quartz-manager/tree/v3.x) f
 
 ## Quick Start
 
+After executing the following command, the application will start on `localhost:8080`
+
+- Using maven
+
 ```bash
 > mvnw clean spring-boot:run
+```
+
+- Using docker:
+
+```bash
+> docker run -p 8080:8080 juliuskrah/quartz-manager
 ```
 
 ## Features
