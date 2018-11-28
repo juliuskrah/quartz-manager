@@ -8,7 +8,7 @@ Branch                                                              | Notes
 [v1.x](https://github.com/juliuskrah/quartz-manager/tree/v1.x)      | Implementation with database
 [v2.x](https://github.com/juliuskrah/quartz-manager/tree/v2.x)      | Implementation with error handling
 [v3.x](https://github.com/juliuskrah/quartz-manager/tree/v3.x)      | Implementation with Spring WebFlux
-v4.x                                                                | Implementation with Functional Spring WebFlux functional 
+[v4.x](https://github.com/juliuskrah/quartz-manager/tree/v4.x)      | Implementation with Spring WebFlux fn 
 
 ## Annotation Model
 This branch rewrites the entire Spring with Quartz project using Spring 5's
