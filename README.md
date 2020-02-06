@@ -11,6 +11,7 @@ Branch                                                              | Notes
 [v4.x](https://github.com/juliuskrah/quartz-manager/tree/v4.x)      | Implementation with Spring WebFlux fn 
 
 ## Annotation Model
+
 This branch rewrites the entire Spring with Quartz project using Spring 5's
 WebFlux.  
 In this branch I use the `Annotated Controllers ` similar to Spring MVC
@@ -47,6 +48,7 @@ public class EmailResource {
     ...
 }
 ```
+
 To understand what is happening in this project read the blog post at:
 
 <http://juliuskrah.com/tutorial/2017/10/11/error-handling-in-a-rest-service-with-quartz/>
@@ -54,16 +56,25 @@ To understand what is happening in this project read the blog post at:
 for a comprehensive overview.
 
 ## Quick Start
+
 *Prerequisite:* Java 9
 
 Clone this repository
+
 ```bash
 > git clone -b v3.x https://github.com/juliuskrah/quartz-manager.git
 > cd quartz-manager
 > mvnw clean spring-boot:run
 ```
 
+Using docker
+
+```bash
+> docker run -p 8080:8080 juliuskrah/quartz-manager:3.x
+```
+
 ## Features
+
 **CREATE**  
 Method      : `POST: /api/v1.0/groups/:group/jobs`  
 Status      : `201: Created`  
